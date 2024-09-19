@@ -10,8 +10,7 @@ class Glucose(Base):
     glucose = Column(Float)
 
     # The date will always be taken as the default value to facilitate registration for those who are not familiar with it.
-    insertion_date = Column(DateTime, default=datetime.now())
-
+    insertion_date = Column(DateTime, default= datetime.now())
 
     def __init__(self, name:str, glucose:float):       
         """

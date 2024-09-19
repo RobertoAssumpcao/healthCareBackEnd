@@ -10,7 +10,7 @@ class GlucoseSchemaRequest(BaseModel):
     name: str = "Name"
     glucose: float = 0.0
 
-class GlucoseSchemaReponse(BaseModel):
+class GlucoseSchemaResponse(BaseModel):
     """
     Glucose response
     """
@@ -19,13 +19,12 @@ class GlucoseSchemaReponse(BaseModel):
     glucose: float = 0.0
     insertion_date: datetime = None
 
-class GlucoseListSchemaReponse(BaseModel):
+class GlucoseListSchemaResponse(BaseModel):
     """
     Glucose list response
     """
-    glucoses: List[GlucoseSchemaReponse]
+    glucoses: List[GlucoseSchemaResponse]
 
-    
 def list_glucoses(glucoses: list[Glucose]):
     result = []
     
