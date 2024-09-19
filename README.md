@@ -21,13 +21,6 @@ This project aims to record daily blood [glucose](https://www.healthline.com/hea
 
 **This project was inspired by my grandmother =)**
 
-## Settings
-
-### Pre requisites
-
-* [Flask](https://flask.palletsprojects.com/en/3.0.x/)
-* [Flask-SQLAlchemy](https://flask-sqlalchemy.readthedocs.io/en/3.1.x/)
-
 ## How to use
 
 1. **Clone the repository:**
