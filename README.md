@@ -16,6 +16,7 @@
 </div>
 
 ## About
+
 This project aims to record daily blood [glucose](https://www.healthline.com/health/glucose) levels for future analysis or to facilitate management, especially for people who have difficulty managing their levels, whether by recording or checking how much glucose they need to take.
 
 **This project was inspired by my grandmother =)**
@@ -25,14 +26,18 @@ This project aims to record daily blood [glucose](https://www.healthline.com/hea
 ### Pre requisites
 
 * [Flask](https://flask.palletsprojects.com/en/3.0.x/)
+* [Flask-SQLAlchemy](https://flask-sqlalchemy.readthedocs.io/en/3.1.x/)
 
 ## How to use
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/RobertoAssumpcao/healthCareBackEnd.git
    ```
+
 2. **Navigate to the project directory:**
+
    ```bash
    cd healthCareBackEnd
    ```
@@ -40,14 +45,44 @@ This project aims to record daily blood [glucose](https://www.healthline.com/hea
 > ⚠️ The development was done using the Fedora Linux 40 operating system. Depending on your OS, the way to install and activate the virtual environment may change. In case of doubt, consult relevant [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html).
 
 3. **Create the virtual environment**
+
    ```bash
    python3 -m venv .venv
    ```
+
 4. **Activate the virtual environment**
+
    ```bash
    source .venv/bin/activate
    ```
 
+5. **Install the dependencies**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+> This command installs the dependencies/libraries described in the requirements.txt file.
+
+6. **To run the API:**
+
+   ```bash
+   flask run --host 0.0.0.0 --port 5000
+   ```
+
+   OR
+
+   ```bash
+   flask run --host 0.0.0.0 --port 5000 --reload
+   ```
+
+> This second command will automatically restart the server after a source code change.
+
+To update requirements.txt
+
+   ```bash
+   pip freeze > requirements.txt
+   ```
 
 ## Contribution
 
