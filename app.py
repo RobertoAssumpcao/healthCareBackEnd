@@ -1,12 +1,76 @@
-from flask import Flask
+from flask import redirect
+from flask_openapi3 import OpenAPI, Info, Tag
+from flask_cors import CORS
+from model import Session, Glucose
+from sqlalchemy.exc import IntegrityError
+from schemas.errorSchema import ErrorSchema
+from schemas.glucoseSchema import GlucoseListSchemaReponse, GlucoseSchemaRequest, list_glucoses
 
-app = Flask(__name__)
+info = Info(title="Health care", version="1.0.0")
+app = OpenAPI(__name__, info = info)
+CORS(app)
 
+swagger_tag = Tag(name="Swagger", description="Swagger related endpoints")
+glucose_tag = Tag(name="Glucose", description="Glucose related endpoints")
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+@app.get('/', tags=[swagger_tag])
+def home():
+    """
+    The default route takes you to the endpoint documentation options.
+    """
+    return redirect('/openapi')
 
+@app.post('/glucose', tags=[glucose_tag], 
+          responses =
+          {
+              "200": GlucoseListSchemaReponse, "400": ErrorSchema, "409": ErrorSchema, "500": ErrorSchema
+          })
+def add_glucose(form: GlucoseSchemaRequest):
+    """
+    endpoint used to add a new glucose and returns the list of those that have already been registered.
+    """
+    glucose = Glucose(
+        name= form.name,
+        glucose= form.glucose
+    )
 
-if __name__ == '__main__':
-    app.run()
+    try:
+        session = Session()
+        session.add(glucose)
+        session.commit()
+
+        glucoses = session.query(Glucose).all()
+
+        session.close()
+
+        if not glucoses:
+            return {"message": "Glucoses not found"}, 404
+        else:
+            return list_glucoses(glucoses), 200
+    except IntegrityError as ex:
+        return {"message": "Glucose already registered in the database"}, 409
+    except Exception as ex:
+        return {"message": "could not save"}, 500
+    
+
+@app.get('/glucoses', tags=[glucose_tag], 
+         responses = 
+         {
+             "200": GlucoseListSchemaReponse, "404": ErrorSchema, "500": ErrorSchema
+         })
+def get_all_glucoses():
+    """
+    endpoint used to list all recorded glucoses.
+    """
+    try:
+        session = Session()
+        glucoses = session.query(Glucose).all()
+        
+        session.close()
+
+        if not glucoses:
+            return {"message": "Glucoses not found"}, 404
+        else:
+            return list_glucoses(glucoses), 200
+    except Exception as ex:
+        return {"message": ex}, 500
