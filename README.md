@@ -23,6 +23,8 @@ This project aims to record daily blood [glucose](https://www.healthline.com/hea
 
 ## How to use
 
+> Python 3.12.6
+
 1. **Clone the repository:**
 
    ```bash
