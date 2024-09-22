@@ -17,49 +17,47 @@
 
 ## About
 
-This project aims to record daily blood [glucose](https://www.healthline.com/health/glucose) levels for future analysis or to facilitate management, especially for people who have difficulty managing their levels, whether by recording or checking how much glucose they need to take.
+Este projeto tem como objetivo registrar [glicose](https://www.healthline.com/health/glucose) para análises futuras ou para facilitar o manejo, especialmente para pessoas que têm dificuldade em gerenciar seus níveis, seja registrando ou verificando a quantidade de glicose que precisam ingerir.
 
-**This project was inspired by my grandmother =)**
+**Este projeto foi inspirado na minha avó =) =)**
 
-## How to use
+## Como usar
 
 > Python 3.12.6
 
-1. **Clone the repository:**
+1. **Clone o repository:**
 
    ```bash
    git clone https://github.com/RobertoAssumpcao/healthCareBackEnd.git
    ```
 
-2. **Navigate to the project directory:**
+2. **Navegue até o diretório do projeto:**
 
    ```bash
    cd healthCareBackEnd
    ```
 
-> ⚠️ The development was done using the Fedora Linux 40 operating system. Depending on your OS, the way to install and activate the virtual environment may change. In case of doubt, consult relevant [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html).
+> ⚠️ O desenvolvimento foi feito usando o sistema operacional Fedora Linux 40. Dependendo do seu sistema operacional, a maneira de instalar e ativar o ambiente virtual pode mudar. Em caso de dúvida, consulte os [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html).
 
-3. **Create the virtual environment**
+3. **Criar o ambiente virtual**
 
    ```bash
    python3 -m venv .venv
    ```
 
-4. **Activate the virtual environment**
+4. **Ativar o ambiente virtual**
 
    ```bash
    source .venv/bin/activate
    ```
 
-5. **Install the dependencies**
+5. **Instalar as dependências**
 
    ```bash
    pip install -r requirements.txt
    ```
 
-> This command installs the dependencies/libraries described in the requirements.txt file.
-
-6. **To run the API:**
+6. **run a API:**
 
    ```bash
    flask run --host 0.0.0.0 --port 5000
@@ -71,27 +69,27 @@ This project aims to record daily blood [glucose](https://www.healthline.com/hea
    flask run --host 0.0.0.0 --port 5000 --reload
    ```
 
-> This second command will automatically restart the server after a source code change.
+> Este segundo comando reiniciará automaticamente o servidor após uma alteração no código-fonte.
 
-To update requirements.txt
+Para atualizar o requirements.txt
 
    ```bash
    pip freeze > requirements.txt
    ```
 
-## Contribution
+## Contribuição
 
-Contributions are what make the open source community an incredible place to learn, inspire, and create. Any contribution you make will be **greatly appreciated**.
+Contribuições são o que fazem a comunidade de código aberto um lugar incrível para aprender, inspirar e criar. Qualquer contribuição que você fizer será **muito apreciada**.
 
-If you have a suggestion that could improve this, please fork the repository and create a pull request. You can also simply open an issue. Don't forget to give the project a star! Thanks again!
+Se você tiver uma sugestão que possa melhorar este projeto, por favor, faça um fork do repositório e crie um pull request. Você também pode simplesmente abrir uma issue. Não se esqueça de dar uma estrela ao projeto! Muito obrigado!
 
-1. Fork the project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push your Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Faça um fork do projeto
+2. Crie sua Branch de Feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas alterações (`git commit -m 'Add some AmazingFeature'`)
+4. Faça o push da sua Branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right">(<a href="#top">voltar ao topo</a>)</p>
 
 [contributors-shield]: https://img.shields.io/github/contributors/RobertoAssumpcao/healthCareBackEnd.svg?style=for-the-badge
 

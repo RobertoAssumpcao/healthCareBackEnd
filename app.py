@@ -1,83 +1,83 @@
 from flask import redirect
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask_cors import CORS
-from model import Session, Glucose
+from model import Session, Glicose
 from sqlalchemy.exc import IntegrityError
 from schemas.errorSchema import ErrorSchema
-from schemas.glucoseSchema import GlicoseSchemaRemove, GlucoseListSchemaResponse, GlucoseSchemaRequest, list_glucoses
+from schemas.glicoseSchema import GlicoseSchemaRemove, GlicoseListSchemaResponse, GlicoseSchemaRequest, list_glicoses
 
 info = Info(title="Health care", version="1.0.0")
 app = OpenAPI(__name__, info = info)
 CORS(app)
 
-swagger_tag = Tag(name="Swagger", description="Swagger related endpoints")
-glucose_tag = Tag(name="Glucose", description="Glucose related endpoints")
+swagger_tag = Tag(name="Swagger", description="Swagger endpoints")
+glicose_tag = Tag(name="Glicose", description="Glicose endpoints")
 
 @app.get('/', tags=[swagger_tag])
 def home():
     """
-    The default route takes you to the endpoint documentation options.
+    A rota padrão leva você às opções de documentação do endpoint.
     """
     return redirect('/openapi')
 
-@app.post('/glucose', tags=[glucose_tag], 
+@app.post('/glicose', tags=[glicose_tag], 
           responses =
           {
-              "200": GlucoseListSchemaResponse, "400": ErrorSchema, "409": ErrorSchema, "500": ErrorSchema
+              "200": GlicoseListSchemaResponse, "400": ErrorSchema, "409": ErrorSchema, "500": ErrorSchema
           })
-def add_glucose(form: GlucoseSchemaRequest):
+def add_glicose(form: GlicoseSchemaRequest):
     """
-    endpoint used to add a new glucose and returns the list of those that have already been registered.
+    endpoint usado para adicionar uma nova glicose e retorna a lista das que já foram registradas.
     """
 
-    glucose = Glucose(
-        name= form.name,
-        glucose= form.glucose
+    glicose = Glicose(
+        nome= form.nome,
+        glicose= form.glicose
     )
 
     try:
         session = Session()
-        session.add(glucose)
+        session.add(glicose)
         session.commit()
 
-        glucoses = session.query(Glucose).all()
+        glicoses = session.query(Glicose).all()
 
         session.close()
 
-        if not glucoses:
+        if not glicoses:
             return {"message": "Glucoses not found"}, 404
         else:
-            return list_glucoses(glucoses), 200
+            return list_glicoses(glicoses), 200
     except IntegrityError as ex:
-        return {"message": "Glucose already registered in the database"}, 409
+        {"message": "Glicose já registrada no banco de dados"}, 409
     except Exception as ex:
-        return {"message": "could not save"}, 500
+        {"message": "não foi possível salvar"}, 500
     
 
-@app.get('/glucoses', tags=[glucose_tag], 
+@app.get('/glicoses', tags=[glicose_tag], 
          responses = 
          {
-             "200": GlucoseListSchemaResponse, "404": ErrorSchema, "500": ErrorSchema
+             "200": GlicoseListSchemaResponse, "404": ErrorSchema, "500": ErrorSchema
          })
-def get_all_glucoses():
+def get_all_glicoses():
     """
-    endpoint used to list all recorded glucoses.
+    endpoint usado para listar todas as glicoses registradas.
     """
     try:
         session = Session()
-        glucoses = session.query(Glucose).all()
+        glicoses = session.query(Glicose).all()
         
         session.close()
 
-        if not glucoses:
+        if not glicoses:
             return {"message": "Glucoses not found"}, 404
         else:
-            return list_glucoses(glucoses), 200
+            return list_glicoses(glicoses), 200
     except Exception as ex:
         return {"message": ex}, 500
 
-@app.delete('/glucose', tags=[glucose_tag],
-            responses={"200": GlucoseListSchemaResponse, "404": ErrorSchema, "500": ErrorSchema})
+@app.delete('/glicose', tags=[glicose_tag],
+            responses={"200": GlicoseListSchemaResponse, "404": ErrorSchema, "500": ErrorSchema})
 def del_glicose(query: GlicoseSchemaRemove):
     """Deleta um registro de glicose
     Retorna uma lista de glicoses.
@@ -86,16 +86,16 @@ def del_glicose(query: GlicoseSchemaRemove):
     # criando conexão com a base
     session = Session()
     # fazendo a remoção
-    count = session.query(Glucose).filter(Glucose.id == query.id).delete()
+    count = session.query(Glicose).filter(Glicose.id == query.id).delete()
     session.commit()
 
-    glucoses = session.query(Glucose).all()
+    glicoses = session.query(Glicose).all()
 
     session.close()
 
     try:
         if count:
-            return list_glucoses(glucoses), 200
+            return list_glicoses(glicoses), 200
         else:
             return {"mesage": "Glicose não encontrado."}, 404
     except Exception as ex:
