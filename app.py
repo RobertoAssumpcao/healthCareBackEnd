@@ -29,6 +29,7 @@ def add_glucose(form: GlucoseSchemaRequest):
     """
     endpoint used to add a new glucose and returns the list of those that have already been registered.
     """
+
     glucose = Glucose(
         name= form.name,
         glucose= form.glucose
