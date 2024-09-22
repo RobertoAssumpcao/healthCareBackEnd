@@ -25,6 +25,12 @@ class GlucoseListSchemaResponse(BaseModel):
     """
     glucoses: List[GlucoseSchemaResponse]
 
+class GlicoseSchemaRemove(BaseModel):
+    """
+    Glucose removal response
+    """
+    id: int = 0
+
 def list_glucoses(glucoses: list[Glucose]):
     result = []
     

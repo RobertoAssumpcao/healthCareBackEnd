@@ -4,7 +4,7 @@ from flask_cors import CORS
 from model import Session, Glucose
 from sqlalchemy.exc import IntegrityError
 from schemas.errorSchema import ErrorSchema
-from schemas.glucoseSchema import GlucoseListSchemaReponse, GlucoseSchemaRequest, list_glucoses
+from schemas.glucoseSchema import GlicoseSchemaRemove, GlucoseListSchemaResponse, GlucoseSchemaRequest, list_glucoses
 
 info = Info(title="Health care", version="1.0.0")
 app = OpenAPI(__name__, info = info)
@@ -23,7 +23,7 @@ def home():
 @app.post('/glucose', tags=[glucose_tag], 
           responses =
           {
-              "200": GlucoseListSchemaReponse, "400": ErrorSchema, "409": ErrorSchema, "500": ErrorSchema
+              "200": GlucoseListSchemaResponse, "400": ErrorSchema, "409": ErrorSchema, "500": ErrorSchema
           })
 def add_glucose(form: GlucoseSchemaRequest):
     """
@@ -56,7 +56,7 @@ def add_glucose(form: GlucoseSchemaRequest):
 @app.get('/glucoses', tags=[glucose_tag], 
          responses = 
          {
-             "200": GlucoseListSchemaReponse, "404": ErrorSchema, "500": ErrorSchema
+             "200": GlucoseListSchemaResponse, "404": ErrorSchema, "500": ErrorSchema
          })
 def get_all_glucoses():
     """
@@ -72,5 +72,30 @@ def get_all_glucoses():
             return {"message": "Glucoses not found"}, 404
         else:
             return list_glucoses(glucoses), 200
+    except Exception as ex:
+        return {"message": ex}, 500
+
+@app.delete('/glucose', tags=[glucose_tag],
+            responses={"200": GlucoseListSchemaResponse, "404": ErrorSchema, "500": ErrorSchema})
+def del_glicose(query: GlicoseSchemaRemove):
+    """Deleta um registro de glicose
+    Retorna uma lista de glicoses.
+    """
+
+    # criando conexão com a base
+    session = Session()
+    # fazendo a remoção
+    count = session.query(Glucose).filter(Glucose.id == query.id).delete()
+    session.commit()
+
+    glucoses = session.query(Glucose).all()
+
+    session.close()
+
+    try:
+        if count:
+            return list_glucoses(glucoses), 200
+        else:
+            return {"mesage": "Glicose não encontrado."}, 404
     except Exception as ex:
         return {"message": ex}, 500
